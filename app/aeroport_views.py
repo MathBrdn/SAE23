@@ -47,5 +47,8 @@ def delete(request, id):
     return HttpResponseRedirect("/app/index")
 
 
+def home(request):
+    return render(request, "app/aeroport/home.html")
 
-# Create your views here.
+    
+

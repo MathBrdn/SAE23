@@ -10,10 +10,11 @@ urlpatterns=[
     path("update/<int:id>/", aeroport_views.update),
     path("updatetraitement/<int:id>/", aeroport_views.updatetraitement),
     path("delete/<int:id>/", aeroport_views.delete),
+    path("", aeroport_views.home),
     # page pour les pistes
     path("create2/", piste_views.create2),
     path("traitement2/", piste_views.traitement2),
-    path("", piste_views.index2),
+    path("index2/", piste_views.index2),
     path("affiche2/<int:id>/", piste_views.affiche2),
     path("update2/<int:id>/", piste_views.update2),
     path("updatetraitement2/<int:id>/", piste_views.updatetraitement2),

@@ -1,0 +1,11 @@
+def search_flights(request):
+    query = request.GET.get("q", "")
+    vols = Vol.objects.all()
+
+    if query:
+        vols = vols.filter(pilote__icontains=query)  # ou autre champ pertinent
+
+    return render(request, "aero/vols_recherche_resultats.html", {
+        "query": query,
+        "vols": vols,
+    })

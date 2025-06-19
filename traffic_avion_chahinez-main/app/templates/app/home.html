@@ -1,0 +1,45 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<h2 class="text-center mb-5">Gestion du traffic aerien ✈️</h2>
+
+<div class="row justify-content-center">
+    <!-- AÉROPORTS -->
+    <div class="col-md-4 mb-5">
+        <a href="{% url 'aeroport_list' %}" class="image-card aeroport-bg">
+            <div class="overlay">
+                <h3>Aéroports</h3>
+            </div>
+        </a>
+        <a href="{% url 'aeroport_list' %}" class="info-card">
+            Acceder aux aeroports >
+        </a>
+    </div>
+
+    <!-- AVIONS -->
+    <div class="col-md-4 mb-5">
+        <a href="{% url 'avion_list' %}" class="image-card avion-bg">
+            <div class="overlay">
+                <h3>Avions</h3>
+            </div>
+        </a>
+        <a href="{% url 'avion_list' %}" class="info-card">
+            Voir et ajouter des avions >
+        </a>
+    </div>
+
+    <!-- VOLS -->
+    <div class="col-md-4 mb-5">
+        <a href="{% url 'vol_list' %}" class="image-card vol-bg">
+            <div class="overlay">
+                <h3>Vols</h3>
+            </div>
+        </a>
+        <a href="{% url 'vol_list' %}" class="info-card">
+            Planifier et consulter les vols >
+        </a>
+    </div>
+</div>
+{% endblock %}

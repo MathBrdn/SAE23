@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Liste des compagnies{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Liste des Compagnies</h2>
+    <a href="{% url 'compagnie_create' %}" class="btn btn-primary mb-3">Ajouter une compagnie</a>
+
+    {% if liste %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Pays de rattachement</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for compagnie in liste %}
+                <tr>
+                    <td>{{ compagnie.nom }}</td>
+                    <td>{{ compagnie.pays_attache }}</td>
+                    <td>{{ compagnie.description }}</td>
+                    <td>
+                        <a href="{% url 'compagnie_update' compagnie.id %}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a href="{% url 'compagnie_delete' compagnie.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucune compagnie enregistrée.</p>
+    {% endif %}
+</div>
+{% endblock %}

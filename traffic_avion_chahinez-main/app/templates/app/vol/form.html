@@ -1,0 +1,22 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Ajouter / Modifier un vol{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Ajouter ou modifier un vol</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    {% if proposition %}
+        <div class="alert alert-warning">
+            ⚠️ La piste n’est pas disponible à l’heure souhaitée.<br>
+            Proposition automatique : <strong>{{ proposition|date:"d/m/Y H:i" }}</strong>
+        </div>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <a href="{% url 'vol_list' %}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

@@ -1,0 +1,59 @@
+Configuration du Serveur Django:
+
+VM Server Django (Debian 12) -> 2 interfaces réseaux, une en pont pour la connexion à Internet et aux autres PC et une en static pour la connexion avec la VM serveur Django.
+
+2) Modification du fichier /etc/network/interfaces:
+
+sudo nano /etc/network/interfaces
+
+auto enp0s8
+iface enp0s8 inet static
+	address 192.168.100.10
+	netmask 255.255.255.0
+
+ctrl+x puis O
+sudo systemctl restart networking
+ping 8.8.8.8
+ping 192.168.100.11 #pour vérifier les connexions (internet et VM Serveur SQL).
+
+3)Installation des paquets Python, Nginx:
+
+sudo apt update
+sudo apt install python3-venv python3-dev libpq-dev nginx curl
+
+4)Création de l'environnement virtuel sur python:
+
+#Importer le projet Django depuis GitHub et le placer dans le dossier Téléchargements
+cd /Téléchargements/SAE23/gestion_trafic
+python3 -m venv .venv
+source .venv/bin/activate
+
+5)Installation de Django et de mysqlclient dans l'environnement virtuel:
+
+pip install django
+#Dans le bash: sudo apt install mysqlclient -y	et sudo apt install default-libmysqlclient-dev build-essential 
+pip install mysqlclient
+
+6)Modification du Settings.py:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'gestion_trafic',
+        'USER': 'toto',
+        'PASSWORD': 'toto',
+        'HOST': '192.168.100.10',
+        'PORT': '3306',
+	'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+	};
+    }
+}
+
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+7)Le résultat du lancement du serveur:
+
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver

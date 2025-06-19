@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Liste des avions{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Liste des Avions</h2>
+    <a href="{% url 'avion_create' %}" class="btn btn-primary mb-3">Ajouter un avion</a>
+
+    {% if liste %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Compagnie</th>
+                    <th>Modèle</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for avion in liste %}
+                <tr>
+                    <td>{{ avion.nom }}</td>
+                    <td>{{ avion.compagnie.nom }}</td>
+                    <td>{{ avion.modele.marque }} {{ avion.modele.modele }}</td>
+                    <td>
+                        <a href="{% url 'avion_update' avion.id %}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a href="{% url 'avion_delete' avion.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun avion enregistré.</p>
+    {% endif %}
+</div>
+{% endblock %}

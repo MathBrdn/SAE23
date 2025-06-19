@@ -1,0 +1,53 @@
+{% extends 'app/base.html' %}
+{% block title %}Rechercher des vols{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Rechercher des vols</h2>
+
+    <form method="get" class="row mb-4">
+        <div class="col-md-4">
+            <label for="aeroport_id" class="form-label">Aéroport</label>
+            <select name="aeroport_id" class="form-control">
+                <option value="">-- Sélectionner --</option>
+                {% for aeroport in aeroports %}
+                    <option value="{{ aeroport.id }}" {% if request.GET.aeroport_id == aeroport.id|stringformat:"s" %}selected{% endif %}>
+                        {{ aeroport.nom }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="date_debut" class="form-label">Date début</label>
+            <input type="date" name="date_debut" value="{{ request.GET.date_debut }}" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label for="date_fin" class="form-label">Date fin</label>
+            <input type="date" name="date_fin" value="{{ request.GET.date_fin }}" class="form-control">
+        </div>
+        <div class="col-md-2 align-self-end">
+            <button type="submit" class="btn btn-info w-100">Rechercher</button>
+        </div>
+    </form>
+
+    {% if vols %}
+        <h4>{{ vols|length }} vol(s) trouvé(s)</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr><th>Avion</th><th>Départ</th><th>Arrivée</th></tr>
+            </thead>
+            <tbody>
+                {% for vol in vols %}
+                <tr>
+                    <td>{{ vol.avion.nom }}</td>
+                    <td>{{ vol.aeroport_depart.nom }}<br>{{ vol.date_heure_depart }}</td>
+                    <td>{{ vol.aeroport_arrivee.nom }}<br>{{ vol.date_heure_arrivee }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% elif request.GET %}
+        <div class="alert alert-warning">Aucun vol trouvé pour cette recherche.</div>
+    {% endif %}
+</div>
+{% endblock %}

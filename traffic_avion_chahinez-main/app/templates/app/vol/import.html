@@ -1,0 +1,20 @@
+{% extends 'app/base.html' %}
+{% block title %}Importer des vols{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Importer des Vols via un fichier CSV</h2>
+
+    <p class="alert alert-info">
+        Format attendu : <code>avion_id;pilote;aeroport_depart_id;date_heure_depart;aeroport_arrivee_id;date_heure_arrivee</code><br>
+        Exemple : <code>1;Jean Dupont;2;2025-06-15 14:00;3;2025-06-15 16:30</code>
+    </p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Importer</button>
+        <a href="{% url 'vol_list' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

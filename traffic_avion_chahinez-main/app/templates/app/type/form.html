@@ -1,0 +1,34 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Ajouter un Type d'avion{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Ajouter un type d'avion</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_marque" class="form-label">Marque</label>
+            {{ form.marque }}
+        </div>
+        <div class="mb-3">
+            <label for="id_modele" class="form-label">Modèle</label>
+            {{ form.modele }}
+        </div>
+        <div class="mb-3">
+            <label for="id_description" class="form-label">Description</label>
+            {{ form.description }}
+        </div>
+        <div class="mb-3">
+            <label for="id_longueur_piste_necessaire" class="form-label">Longueur piste nécessaire</label>
+            {{ form.longueur_piste_necessaire }}
+        </div>
+        <div class="mb-3">
+            <label for="id_image" class="form-label">Image</label>
+            {{ form.image }}
+        </div>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <a href="{% url 'typeavion_list' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

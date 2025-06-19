@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Liste des aéroports{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Liste des Aéroports</h2>
+
+    <a href="{% url 'aeroport_create' %}" class="btn btn-primary mb-3">Ajouter un aéroport</a>
+
+    {% if liste %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Pays</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aeroport in liste %}
+                <tr>
+                    <td>{{ aeroport.nom }}</td>
+                    <td>{{ aeroport.pays }}</td>
+                    <td>
+                        <a href="{% url 'aeroport_detail' aeroport.id %}" class="btn btn-info btn-sm">Voir</a>
+                        <a href="{% url 'aeroport_update' aeroport.id %}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a href="{% url 'aeroport_delete' aeroport.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun aéroport enregistré.</p>
+    {% endif %}
+</div>
+{% endblock %}

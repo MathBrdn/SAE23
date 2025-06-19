@@ -1,0 +1,23 @@
+{% extends 'app/base.html' %}
+
+{% block title %}{{ form.instance.pk|yesno:"Modifier,Ajouter" }} un Aéroport{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">{{ form.instance.pk|yesno:"Modifier,Ajouter" }} un Aéroport</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_nom" class="form-label">Nom</label>
+            {{ form.nom }}
+        </div>
+        <div class="mb-3">
+            <label for="id_pays" class="form-label">Pays</label>
+            {{ form.pays }}
+        </div>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <a href="{% url 'aeroport_list' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

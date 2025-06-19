@@ -1,0 +1,46 @@
+{% extends 'app/base.html' %}
+{% block title %}Liste des vols{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <h2 class="mb-4">Liste des Vols</h2>
+
+    <div class="mb-3">
+        <a href="{% url 'vol_create' %}" class="btn btn-primary">Ajouter un vol</a>
+        <a href="{% url 'vol_import' %}" class="btn btn-outline-secondary">Importer vols (CSV)</a>
+        <a href="{% url 'vol_recherche' %}" class="btn btn-outline-info">Rechercher des vols</a>
+    </div>
+
+    {% if liste %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Avion</th>
+                    <th>Pilote</th>
+                    <th>Départ</th>
+                    <th>Arrivée</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vol in liste %}
+                <tr>
+                    <td>{{ vol.avion.nom }}</td>
+                    <td>{{ vol.pilote }}</td>
+                    <td>{{ vol.aeroport_depart.nom }}<br>{{ vol.date_heure_depart }}</td>
+                    <td>{{ vol.aeroport_arrivee.nom }}<br>{{ vol.date_heure_arrivee }}</td>
+                    <td>
+                        <a href="{% url 'vol_update' vol.id %}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a href="{% url 'vol_delete' vol.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun vol enregistré.</p>
+    {% endif %}
+</div>
+{% endblock %}

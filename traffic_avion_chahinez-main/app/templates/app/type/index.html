@@ -1,0 +1,26 @@
+{% extends 'app/base.html' %}
+{% block title %}Types d'avions{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Types d'Avions</h2>
+    <a href="{% url 'typeavion_create' %}" class="btn btn-primary mb-3">Ajouter un type</a>
+    {% if liste %}
+        <table class="table table-striped">
+            <thead><tr><th>Marque</th><th>Modèle</th><th>Longueur min</th><th>Description</th></tr></thead>
+            <tbody>
+                {% for type in liste %}
+                <tr>
+                    <td>{{ type.marque }}</td>
+                    <td>{{ type.modele }}</td>
+                    <td>{{ type.longueur_piste_necessaire }} m</td>
+                    <td>{{ type.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun type d'avion enregistré.</p>
+    {% endif %}
+</div>
+{% endblock %}

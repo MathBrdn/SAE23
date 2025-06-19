@@ -1,0 +1,14 @@
+{% extends 'app/base.html' %}
+{% block title %}Ajouter une Compagnie{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Ajouter une Compagnie</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <a href="{% url 'compagnie_list' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

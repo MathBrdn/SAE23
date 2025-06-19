@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Liste des pistes{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Liste des Pistes</h2>
+    <a href="{% url 'piste_create' %}" class="btn btn-primary mb-3">Ajouter une piste</a>
+
+    {% if liste %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Numéro</th>
+                    <th>Aéroport</th>
+                    <th>Longueur (m)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for piste in liste %}
+                <tr>
+                    <td>{{ piste.numero }}</td>
+                    <td>{{ piste.aeroport.nom }}</td>
+                    <td>{{ piste.longueur }}</td>
+                    <td>
+                        <a href="{% url 'piste_update' piste.id %}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a href="{% url 'piste_delete' piste.id %}" class="btn btn-danger btn-sm">Supprimer</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucune piste enregistrée.</p>
+    {% endif %}
+</div>
+{% endblock %}

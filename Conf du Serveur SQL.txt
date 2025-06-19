@@ -1,0 +1,113 @@
+1) Configuration de la base de donnée sur le serveur SQL:
+
+VM Server SQL (Debian 12)-> 2 interfaces réseaux, une en NAT pour la connexion à Internet et une en static pour la connexion avec la VM serveur Django.
+
+2) Modification du fichier /etc/network/interfaces:
+
+sudo nano /etc/network/interfaces
+
+auto enp0s3
+iface enp0s3 inet dhcp
+
+auto enp0s8
+iface enp0s8 inet static
+	address 192.168.100.11
+	netmask 255.255.255.0
+
+ctrl+x puis O
+sudo systemctl restart networking 
+ping 8.8.8.8
+ping 192.168.100.10 #pour vérifier les connexions (internet et VM Serveur Django).
+
+3)Installation des paquets nécessaires à MySQL:
+
+sudo apt update
+sudo apt install mariadb-server mariadb-client -y
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb
+sudo dpkg -i mysql-apt-config_0.8.29-1_all.deb
+sudo apt update
+sudo apt install mysql-server -y
+sudo mysql_secure_installation  #permet de définir un mot de passe root du serveur (mot de passe choisi: "toto").
+sudo systemctl enable mariadb #redémare le service mariadb
+
+4) Connexions du serveur:
+
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf	#modification du fichier de configuration du serveur mariadb.
+soit "bind-address = 0.0.0.0" #si on lie les VM en localhost  , soit "bind-address = 192.168.100.10" #si on souhaite on souhaite lier les VM avec tous les autres PC.
+
+sudo systemctl restart mariadb   # ou mysql
+
+sudo apt install ufw
+sudo ufw allow 3306/tcp #règle de par feu pour autoriser le trafic TCP sur le port 3306.
+
+5) Création de la base de données en SQL.
+
+sudo mysql -u toto -p #Accès à la base de données.
+CREATE DATABASES gestion_trafic;
+USE DATABASE gestion_trafic;
+CREATE TABLE aeroport (
+    id_aeroport INT NOT NULL PRIMARY KEY,
+    nom VARCHAR(50),
+    pays VARCHAR(50)
+);
+
+CREATE TABLE piste (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    numero INT NOT NULL,
+    aeroport_id INT,
+    longueur INT,
+    FOREIGN KEY (aeroport_id) REFERENCES aeroport(id_aeroport) ON DELETE CASCADE
+);
+
+CREATE TABLE compagnie (
+    id_compagnie INT NOT NULL PRIMARY KEY,
+    nom VARCHAR(50),
+    description TEXT,
+    pays_attache VARCHAR(50)
+);
+
+CREATE TABLE type_avion (
+    id_type INT NOT NULL PRIMARY KEY,
+    marque VARCHAR(50),
+    modele VARCHAR(100),
+    description TEXT,
+    longueur_piste_necessaire INT,
+    image VARCHAR(255) -- à adapter selon comment tu stockes les images
+);
+
+CREATE TABLE avion (
+    id_avion INT NOT NULL PRIMARY KEY,
+    nom VARCHAR(50),
+    compagnie_id INT,
+    modele_id INT,
+    FOREIGN KEY (compagnie_id) REFERENCES compagnie(id_compagnie) ON DELETE CASCADE,
+    FOREIGN KEY (modele_id) REFERENCES type_avion(id_type) ON DELETE CASCADE
+);
+
+CREATE TABLE vol (
+    id_vol INT NOT NULL PRIMARY KEY,
+    avion_id INT,
+    pilote VARCHAR(50),
+    aeroport_depart_id INT,
+    date_heure_depart DATE,
+    aeroport_arrivee_id INT,
+    date_heure_arrivee DATE,
+    FOREIGN KEY (avion_id) REFERENCES avion(id_avion) ON DELETE CASCADE,
+    FOREIGN KEY (aeroport_depart_id) REFERENCES aeroport(id_aeroport) ON DELETE CASCADE,
+    FOREIGN KEY (aeroport_arrivee_id) REFERENCES aeroport(id_aeroport) ON DELETE CASCADE
+);
+
+SHOW TABLES;   #Pour vérifier la création des 6 tables.
+
+
+
+
+	
+
+
+
+
+
+
+
+	
